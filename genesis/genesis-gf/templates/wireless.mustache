@@ -1,0 +1,40 @@
+{{#c.wifi.radio.a.on?}}
+config wifi-device  radioa
+    option type     mac80211
+    option channel  {{#c.wifi.radio.a.channel}}{{.}}{{/c.wifi.radio.a.channel}}{{^c.wifi.radio.a.channel}}36{{/c.wifi.radio.a.channel}}
+    option hwmode   11a
+    option path     'pci0000:00/0000:00:00.0'
+    option htmode   'VHT80'
+
+config wifi-iface
+    option device   'radioa'
+    option ifname   'w-pub-a'
+    option mode     'ap'
+    option network  'pub'
+    option country  'DE'
+    option ssid     '{{c.wifi.ap.public.ssid}}'
+    {{#c.wifi.ap.public.auth}}
+    option encryption '{{.encryption}}'
+    option key      '{{.key}}'
+    {{/c.wifi.ap.public.auth}}{{^c.wifi.ap.public.auth}}option encryption 'none'{{/c.wifi.ap.public.auth}}
+
+{{/c.wifi.radio.a.on}}{{#c.wifi.radio.g.on?}}
+config wifi-device  radiog
+    option type     mac80211
+    option channel  {{#c.wifi.radio.g.channel}}{{.}}{{/c.wifi.radio.g.channel}}{{^c.wifi.radio.g.channel}}11{{/c.wifi.radio.g.channel}}
+    option hwmode   11g
+    option path     'platform/qca956x_wmac'
+    option width    'HT20'
+
+config wifi-iface
+    option device   'radiog'
+    option ifname   'w-pub-g'
+    option mode     'ap'
+    option network  'pub'
+    option country  'DE'
+    option ssid     '{{c.wifi.ap.public.ssid}}'
+    {{#c.wifi.ap.public.auth}}
+    option encryption '{{.encryption}}'
+    option key      '{{.key}}'
+    {{/c.wifi.ap.public.auth}}{{^c.wifi.ap.public.auth}}option encryption 'none'{{/c.wifi.ap.public.auth}}
+{{/c.wifi.radio.g.on}}

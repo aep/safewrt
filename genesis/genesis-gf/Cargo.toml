@@ -1,0 +1,12 @@
+[package]
+name = "genesis-gf"
+version = "0.1.0"
+authors = ["Arvid E. Picciani <aep@exys.org>"]
+
+[dependencies]
+bart = "0.1.4"
+bart_derive = "0.1.4"
+serde = "1.0"
+serde_derive = "1.0"
+toml = "0.4"
+

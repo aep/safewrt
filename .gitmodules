@@ -1,0 +1,3 @@
+[submodule "tools/genesis-cli"]
+	path = tools/genesis-cli
+	url = https://github.com/aep/genesis-cli.git

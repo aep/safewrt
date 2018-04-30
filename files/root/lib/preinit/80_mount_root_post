@@ -1,0 +1,13 @@
+#!/bin/sh
+
+do_genesis() {
+    mkdir -p /genesis
+    mount /dev/mtdblock5 -t jffs2 /genesis -o ro
+
+    mkdir /tmp/genesispkg/
+    cd /tmp/genesispkg/
+    tar xvzf /genesis/genesis 
+    ./exe /genesis/config
+}
+
+[ "$INITRAMFS" = "1" ] || boot_hook_add preinit_main do_genesis
