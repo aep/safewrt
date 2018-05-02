@@ -1,0 +1,26 @@
+[package]
+name = "sentry"
+version = "0.1.0"
+authors = ["Bastian Köcher <bastian@superscale.io>"]
+
+[dependencies]
+error-chain = "0.11"
+futures = "0.1"
+serde_json = "1.0"
+serde = "1.0"
+serde_derive = "1.0"
+hyper = "0.11"
+tokio-core = "0.1"
+derive-new = "0.5"
+rand = "0.4"
+bytes = "0.4"
+iptables = "0.2"
+chrono = "0.4"
+chrono-tz = "0.4"
+regex = "0.2"
+lazy_static = "1.0"
+
+[dev-dependencies]
+tokio-proto = "0.1"
+tempdir = "0.3"
+regex = "0.2"

@@ -565,8 +565,7 @@ static struct device_info boards[] = {
             {"soft-version",    0xfda000, 0x00100},
             {"extra-para",      0xfda100, 0x01000},
 
-			{"identity",        0xfdb100, 0x00400},
-
+			{"identity",        0xfdb100, 0x01000},
 			{"radio",           0xff0000, 0x10000},
 			{NULL, 0, 0}
 		},
@@ -1487,11 +1486,11 @@ static void build_image(const char *output,
 
     ///AEP
     //FIXME: this must be individual proper randomness
-    char mdat[1024];
-    memset(mdat, 0, 1024);
+    char mdat[4096];
     strcpy(mdat, "here should be lots of high quality randomness");
-    parts[5] = put_data("identity", mdat, 1024);
+    parts[5] = put_data("identity", mdat, 4096);
 
+    memset(mdat, 0, 1024);
     strcpy(mdat, "here should be a file system? no idea what to use this for yet");
     parts[6] = put_data("sysconf", mdat, 1024);
 

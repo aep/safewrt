@@ -1,41 +1,100 @@
 config defaults
-    option syn_flood	1
-    option input		ACCEPT
-    option output		ACCEPT
-    option forward		REJECT
+    option syn_flood    1
+    option input        ACCEPT
+    option output       ACCEPT
+    option forward      REJECT
+    option disable_ipv6 1
 
 config zone
-    option name		    pub
-    list   network		'pub'
-    option input		ACCEPT
-    option output		ACCEPT
-    option forward		ACCEPT
+    option name         pub
+    list network        'pub'
+    option input        REJECT
+    option output       ACCEPT
+    option forward      REJECT
 
 config zone
-    option name		    wan
-    list   network		'wan'
-    option input		REJECT
-    option output		ACCEPT
-    option forward		REJECT
-    option masq		    1
-    option mtu_fix		1
+    option name         wan
+    list   network      'wan'
+    list   network      'wan6'
+    option input        REJECT
+    option output       ACCEPT
+    option forward      REJECT
+    option masq         1
+    option mtu_fix      1
 
+config rule
+    option name         Allow-DHCP-Renew
+    option src          wan
+    option proto        udp
+    option dest_port    68
+    option target       ACCEPT
+    option family       ipv4
+
+config rule
+    option name         Allow-Ping
+    option src          wan
+    option proto        icmp
+    option icmp_type    echo-request
+    option family       ipv4
+    option target       ACCEPT
+
+config rule
+    option name         Public-Allow-DHCP
+    option src          pub
+    option proto        udp
+    option dest_port    67
+    option target       ACCEPT
+    option family       ipv4
+
+config rule
+    option name         Public-Allow-DNS
+    option src          pub
+    option proto        udp
+    option dest_port    53
+    option target       ACCEPT
+    option family       ipv4
+
+config redirect
+    option name         Sentry
+    option src          pub
+    option src_dport    80
+    option dest         pub
+    option dest_ip      192.168.44.1
+    option dest_port    8444
+    option target       DNAT
+    option proto        tcp
+
+config rule
+    option name         Public-No-Email
+    option src          pub
+    option dest_port    25
+    option proto        tcp
+    option target       REJECT
+
+
+# terminate public wifi on wan
 config forwarding
-    option src		    pub
-    option dest		    wan
+    option src          pub
+    option dest         wan
 
 config rule
-    option name		    Allow-DHCP-Renew
-    option src		    wan
-    option proto		udp
-    option dest_port	68
-    option target		ACCEPT
-    option family		ipv4
+    option src          pub
+    option dest         wan
+    option dest_ip      10.0.0.0/8
+    option proto        all
+    option target       DROP
 
 config rule
-    option name		    Allow-Ping
-    option src		    wan
-    option proto		icmp
-    option icmp_type	echo-request
-    option family		ipv4
-    option target		ACCEPT
+    option src          pub
+    option dest         wan
+    option dest_ip      172.16.0.0/12
+    option proto        all
+    option target       DROP
+
+config rule
+    option src          pub
+    option dest         wan
+    option dest_ip      192.168.0.0/16
+    option proto        all
+    option target       DROP
+
